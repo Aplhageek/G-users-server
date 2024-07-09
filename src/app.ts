@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import routes from './routes';
 
 
 const app = express();
@@ -10,6 +11,6 @@ app.use(cors());
 app.options("*", cors());
 
 // Routes will go here
-app.get('/', (req, res) => res.send("Good Job") );
+app.use('/', routes);
 
 export default app;
