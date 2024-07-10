@@ -16,7 +16,6 @@ app.options("*", cors());
 // Routes will go here
 app.use('/', routes);
 
-
 // To avoid unknown routes
 app.use((req, res, next) => {
     next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
