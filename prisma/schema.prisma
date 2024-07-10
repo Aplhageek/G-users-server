@@ -19,6 +19,7 @@ model User {
   id             Int      @id @default(autoincrement())
   username       String   @unique
   githubUsername String
+  profilePic     String?
   name           String?
   bio            String?
   location       String?
@@ -35,7 +36,6 @@ model User {
   friendOf Friend[] @relation("UserIsFriendOf")
 }
 
-
 //the composite key is to avoid a duplicate relationships
 model Friend {
   id        Int      @id @default(autoincrement())
@@ -45,6 +45,5 @@ model Friend {
   friend    User     @relation("UserIsFriendOf", fields: [friendId], references: [id])
   createdAt DateTime @default(now())
 
-
-  @@unique([userId, friendId])  
+  @@unique([userId, friendId])
 }

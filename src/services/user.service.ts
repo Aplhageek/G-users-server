@@ -12,7 +12,7 @@ export class UserService {
     public static get = async (username?: string, name?: string, location?: string, sortBy?: string) => {
         const searchQuery: Prisma.UserFindManyArgs = {
             where: {
-                isDeleted : false,
+                isDeleted: false,
                 ...(username && { username: { contains: username.toString(), mode: 'insensitive' } }),
                 ...(name && { name: { contains: name.toString(), mode: 'insensitive' } }),
                 ...(location && { location: { contains: location.toString(), mode: 'insensitive' } }),
@@ -64,9 +64,10 @@ export class UserService {
 
         const userData = await this.fetchUserFromGitHub(username);
         if (!userData) throw new ApiError(400, "User not found");
-        
+
 
         const userToCreate = {
+            profilePic: userData.avatar_url,
             username: username,
             githubUsername: userData.login,
             name: userData.name,
