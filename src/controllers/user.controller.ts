@@ -23,9 +23,15 @@ export const update = async (req: Request, res: Response) => {
     res.send(updatedUser);
 };
 
-export const getSortedBy = async (req: Request, res: Response) => {
-    const { sortby } = req.query;
-    const users = await UserService.getSortedBy(sortby as string);
+export const getUsers = async (req: Request, res: Response) => {
+    const { username, name, location, sortBy } = req.query as {
+        username?: string;
+        name?: string;
+        location?: string;
+        sortBy?: string;
+    };
+
+    const users = await UserService.get(username, name, location, sortBy);
     res.send(users);
 };
 
@@ -33,5 +39,5 @@ export const getSortedBy = async (req: Request, res: Response) => {
 export const userController = {
     saveAndGetUser: catchAsync(save),
     update: catchAsync(update),
-    getSortedBy: catchAsync(getSortedBy),
+    getUsers: catchAsync(getUsers),
 }

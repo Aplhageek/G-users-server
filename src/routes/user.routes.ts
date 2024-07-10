@@ -5,7 +5,7 @@ import { userController } from "../controllers/user.controller";
 const userRouter = Router();
 
 // userRouter.get('/', (req, res) => res.send("Hiii"));
-userRouter.get('/', userController.getSortedBy);
+userRouter.get('/', userController.getUsers);
 userRouter.post('/', userController.saveAndGetUser);
 userRouter.put('/:username', userController.update);
 

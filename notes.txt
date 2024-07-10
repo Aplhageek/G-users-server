@@ -1,0 +1,4 @@
+add validaiton and middewares
+add error handling middewares
+add httpsStatus codes
+add tests if in time

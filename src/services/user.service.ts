@@ -6,10 +6,17 @@ import { prismaClient } from '../client/prisma';
 
 export class UserService {
 
-    public static getSortedBy = async (sortby: string) => {
-        return await prismaClient.user.findMany({
-            orderBy: { [sortby]: 'asc' },
-        });
+    public static get = async (username?: string, name?: string, location?: string, sortBy?: string) => {
+        const searchQuery: Prisma.UserFindManyArgs = {
+            where: {
+                ...(username && { username: { contains: username.toString(), mode: 'insensitive' } }),
+                ...(name && { name: { contains: name.toString(), mode: 'insensitive' } }),
+                ...(location && { location: { contains: location.toString(), mode: 'insensitive' } }),
+            },
+            orderBy: sortBy ? { [sortBy.toString()]: 'desc' } : undefined,
+        };
+
+        return await prismaClient.user.findMany(searchQuery);
     };
 
     public static update = async (username: string, userData: any) => {
