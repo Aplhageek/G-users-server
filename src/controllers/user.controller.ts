@@ -23,9 +23,15 @@ export const update = async (req: Request, res: Response) => {
     res.send(updatedUser);
 };
 
+export const getSortedBy = async (req: Request, res: Response) => {
+    const { sortby } = req.query;
+    const users = await UserService.getSortedBy(sortby as string);
+    res.send(users);
+};
 
 
 export const userController = {
     saveAndGetUser: catchAsync(save),
     update: catchAsync(update),
+    getSortedBy: catchAsync(getSortedBy),
 }

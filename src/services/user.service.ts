@@ -6,6 +6,12 @@ import { prismaClient } from '../client/prisma';
 
 export class UserService {
 
+    public static getSortedBy = async (sortby: string) => {
+        return await prismaClient.user.findMany({
+            orderBy: { [sortby]: 'asc' },
+        });
+    };
+
     public static update = async (username: string, userData: any) => {
         return await prismaClient.user.update({
             where: { username },
