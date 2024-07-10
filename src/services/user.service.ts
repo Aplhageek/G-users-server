@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Prisma, User } from '@prisma/client';
 import ApiError from '../utils/ApiError';
 import { prismaClient } from '../client/prisma';
+import httpStatus from 'http-status';
 
 const GITHUB_API_URL = 'https://api.github.com/users/';
 
@@ -48,7 +49,7 @@ export class UserService {
             console.log("res from axios");
             return response.data;
         } catch (error) {
-            throw new ApiError(404, "Could not fetch user from github");
+            throw new ApiError(httpStatus.NOT_FOUND, "Could not fetch user from github");
         }
     };
 
@@ -63,7 +64,7 @@ export class UserService {
         if (existingUser) return existingUser;
 
         const userData = await this.fetchUserFromGitHub(username);
-        if (!userData) throw new ApiError(400, "User not found");
+        if (!userData) throw new ApiError(httpStatus.NOT_FOUND, "User not found");
 
 
         const userToCreate = {
