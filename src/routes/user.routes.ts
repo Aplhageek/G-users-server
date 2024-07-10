@@ -11,5 +11,4 @@ userRouter.put('/:username', userController.update);
 userRouter.delete('/:username', userController.delete);
 
 
-
 export default userRouter;

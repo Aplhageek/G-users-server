@@ -3,6 +3,9 @@ import { Prisma, User } from '@prisma/client';
 import ApiError from '../utils/ApiError';
 import { prismaClient } from '../client/prisma';
 
+const GITHUB_API_URL = 'https://api.github.com/users/';
+
+
 
 export class UserService {
 
@@ -41,7 +44,7 @@ export class UserService {
 
     private static fetchUserFromGitHub = async (username: string) => {
         try {
-            const response = await axios.get(`https://api.github.com/users/${username}`);
+            const response = await axios.get(`${GITHUB_API_URL}${username}`);
             console.log("res from axios");
             return response.data;
         } catch (error) {
@@ -61,6 +64,7 @@ export class UserService {
 
         const userData = await this.fetchUserFromGitHub(username);
         if (!userData) throw new ApiError(400, "User not found");
+        
 
         const userToCreate = {
             username: username,
