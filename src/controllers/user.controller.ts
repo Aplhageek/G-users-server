@@ -1,20 +1,16 @@
 import { Request, Response } from 'express';
 import catchAsync from '../utils/catchAsync';
+import { UserService } from '../services/user.service';
 
 
-
-export const saveAndGetUser = async (req: Request, res: Response) => {
+export const save = async (req: Request, res: Response) => {
     const { username } = req.body;
-
-
-    // const response = await axios.get(`https://api.github.com/users/${username}`);
-    // const userData = response.data;
-
+    if(!username) return res.send({message : "username is required"});
+    const user = await UserService.fetchAndSaveUser(username);
+    res.send({message : "req processed successfully" , user});
+    return;
 };
 
-
-
-export default {
-    save: catchAsync(saveAndGetUser),
-
+export const userController = {
+    saveAndGetUser: catchAsync(save),
 }
