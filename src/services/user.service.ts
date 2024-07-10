@@ -6,6 +6,13 @@ import { prismaClient } from '../client/prisma';
 
 export class UserService {
 
+    public static update = async (username: string, userData: any) => {
+        return await prismaClient.user.update({
+            where: { username },
+            data: userData,
+        });
+    };
+
     public static create = async (userData: Prisma.UserCreateInput): Promise<User> => {
         console.log("creating user");
         return await prismaClient.user.create({ data: userData });
@@ -30,7 +37,7 @@ export class UserService {
 
     public static fetchAndSaveUser = async (username: string): Promise<User> => {
         const existingUser = await this.getByUsername(username);
-        if (existingUser)return existingUser;
+        if (existingUser) return existingUser;
 
         const userData = await this.fetchUserFromGitHub(username);
         if (!userData) throw new ApiError(400, "User not found");
