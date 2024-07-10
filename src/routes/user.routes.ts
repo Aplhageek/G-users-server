@@ -8,6 +8,7 @@ const userRouter = Router();
 userRouter.get('/', userController.getUsers);
 userRouter.post('/', userController.saveAndGetUser);
 userRouter.put('/:username', userController.update);
+userRouter.delete('/:username', userController.delete);
 
 
 

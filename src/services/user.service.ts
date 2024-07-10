@@ -9,6 +9,7 @@ export class UserService {
     public static get = async (username?: string, name?: string, location?: string, sortBy?: string) => {
         const searchQuery: Prisma.UserFindManyArgs = {
             where: {
+                isDeleted : false,
                 ...(username && { username: { contains: username.toString(), mode: 'insensitive' } }),
                 ...(name && { name: { contains: name.toString(), mode: 'insensitive' } }),
                 ...(location && { location: { contains: location.toString(), mode: 'insensitive' } }),
@@ -17,6 +18,13 @@ export class UserService {
         };
 
         return await prismaClient.user.findMany(searchQuery);
+    };
+
+    public static softDelete = async (username?: string, name?: string, location?: string, sortBy?: string) => {
+        return await prismaClient.user.update({
+            where: { username },
+            data: { isDeleted: true },
+        });
     };
 
     public static update = async (username: string, userData: any) => {
@@ -46,7 +54,6 @@ export class UserService {
         const user = await prismaClient.user.findUnique({ where: { username } });
         return user;
     };
-
 
     public static fetchAndSaveUser = async (username: string): Promise<User> => {
         const existingUser = await this.getByUsername(username);

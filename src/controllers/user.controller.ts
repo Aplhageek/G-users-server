@@ -36,8 +36,15 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 
+export const deleteUser = async (req: Request, res: Response) => {
+    const { username } = req.params;
+    const user = await UserService.softDelete(username as string);
+    res.send({ messege: "Successfully deleted" });
+};
+
 export const userController = {
     saveAndGetUser: catchAsync(save),
     update: catchAsync(update),
     getUsers: catchAsync(getUsers),
+    delete: catchAsync(deleteUser),
 }

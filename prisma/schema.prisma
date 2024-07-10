@@ -29,4 +29,5 @@ model User {
   following      Int
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  isDeleted      Boolean  @default(false)
 }
