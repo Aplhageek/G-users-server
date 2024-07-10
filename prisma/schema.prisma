@@ -11,21 +11,22 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
-
+//using login to store the username in case sensitive format 
+// using username to store the user in case in-sensitive format
 model User {
-  id         Int      @id @default(autoincrement())
-  username   String   @unique 
-  name       String?
-  bio        String?
-  location   String?
-  blog       String?
-  publicRepos Int
-  publicGists Int
-  followers  Int
-  following  Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id             Int      @id @default(autoincrement())
+  username       String   @unique
+  githubUsername String
+  name           String?
+  bio            String?
+  location       String?
+  blog           String?
+  publicRepos    Int
+  publicGists    Int
+  followers      Int
+  following      Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

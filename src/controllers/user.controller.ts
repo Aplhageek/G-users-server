@@ -4,9 +4,11 @@ import { UserService } from '../services/user.service';
 
 
 export const save = async (req: Request, res: Response) => {
-    const { username } = req.body;
-    if(!username) return res.send({message : "username is required"});
-    const user = await UserService.fetchAndSaveUser(username);
+    const username:string  = req.body?.username;
+
+    if(!username || username.length <= 0) return res.send({message : "username is required"});
+    const user = await UserService.fetchAndSaveUser(username.toLowerCase());
+    
     res.send({message : "req processed successfully" , user});
     return;
 };

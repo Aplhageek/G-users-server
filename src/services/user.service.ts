@@ -23,33 +23,21 @@ export class UserService {
 
     public static getByUsername = async (username: string): Promise<User | null> => {
         console.log("Checking for user in database:", username);
-        // using findFirst instead of findUnique to use case insensitive search
-        const user = await prismaClient.user.findFirst({
-            where: {
-                username: {
-                    equals: username,
-                    mode: 'insensitive',
-                },
-            },
-        });
-        console.log("User found in database:", user);
+        const user = await prismaClient.user.findUnique({ where: { username } });
         return user;
     };
 
 
     public static fetchAndSaveUser = async (username: string): Promise<User> => {
         const existingUser = await this.getByUsername(username);
-        console.log("existing user:", existingUser);
-        if (existingUser) {
-            console.log("existing user from if block", existingUser);
-            return existingUser;
-        }
+        if (existingUser)return existingUser;
 
         const userData = await this.fetchUserFromGitHub(username);
         if (!userData) throw new ApiError(400, "User not found");
 
         const userToCreate = {
-            username: userData.login,
+            username: username,
+            githubUsername: userData.login,
             name: userData.name,
             bio: userData.bio,
             location: userData.location,
