@@ -18,7 +18,7 @@ datasource db {
 model User {
   id             Int      @id @default(autoincrement())
   username       String   @unique
-  githubUsername String
+  githubUsername String 
   profilePic     String?
   name           String?
   bio            String?

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import catchAsync from '../utils/catchAsync';
 import { UserService } from '../services/user.service';
+import { FriendService } from '../services/friend.service';
+import httpStatus from 'http-status';
 
 
 export const save = async (req: Request, res: Response) => {
@@ -42,9 +44,17 @@ export const deleteUser = async (req: Request, res: Response) => {
     res.send({ messege: "Successfully deleted" });
 };
 
+
+export const getFriends = async (req: Request, res: Response) => {
+    const { username } = req.params;
+    const friends = await FriendService.getFriendsOf(username as string);
+    res.send(friends);
+};
+
 export const userController = {
     saveAndGetUser: catchAsync(save),
     update: catchAsync(update),
     getUsers: catchAsync(getUsers),
     delete: catchAsync(deleteUser),
+    getFriends: catchAsync(getFriends),
 }
